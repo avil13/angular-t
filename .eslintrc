@@ -1,0 +1,14 @@
+env:
+    browser: 1
+globals:
+    angular: 0
+    $: 1
+    _: 1
+rules:
+    no-dupe-args: 2
+    no-dupe-keys: 2
+    semi: [2, "always"]
+    strict: 0
+    eqeqeq: [2, "smart"]
+    quotes: 0
+    # indent: [2, 4]

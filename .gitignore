@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+.directory
+.tags
+/bower_components
+/node_modules
+/dist
+/.sass-cache
+/Web.config
+spec/screenshot
+_build.json
+*.css
+*.map
+npm-debug.log

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Templater</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+
+    <style>
+    body{padding-top: 20px;}
+    </style>
+</head>
+
+<body ng-controller="TestCtrl">
+    <div class="container">
+        <!--  -->
+        <div class="btn-group btn-group-justified">
+            <div class="btn-group" ng-repeat="(k, v) in demo_list">
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="use(k)"
+                    ng-class="{active:k==active}"
+                    >demo {{ k }}</button>
+            </div>
+        </div>
+        <!--  -->
+        <div class="jumbotron">
+            <templater map="map_object"></templater>
+        </div>
+        <!--  -->
+        <pre>{{map_object | json}}</pre>
+        <!--  -->
+    </div>
+    <script src="src/templater.js"></script>
+    <script src="test/app.js"></script>
+</body>
+
+</html>
