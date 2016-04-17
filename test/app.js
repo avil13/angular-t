@@ -2,7 +2,7 @@ var app = angular.module('App', [
     'templater' // include Templater
 ]);
 
-app.controller('TestCtrl', ['$scope', function($scope) {
+app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 
     $scope.demo_list = {
         '1': {
@@ -20,7 +20,10 @@ app.controller('TestCtrl', ['$scope', function($scope) {
     $scope.map_object = {};
 
     $scope.use = function(key) {
-        $scope.active = key;
         $scope.map_object = $scope.demo_list[key];
+        $scope.active = key;
+        $timeout(function() {
+            $scope.html = document.getElementById('templater').innerHTML;
+        });
     };
 }]);

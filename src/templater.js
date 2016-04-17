@@ -148,7 +148,7 @@ angular
                 var content = $compile(template)(scope);
                 iElement.html('');
                 iElement.append(content);
-                console.log('==>', template);
+                // console.log('==>', template);
             });
         }
     };
