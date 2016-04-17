@@ -10,7 +10,7 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
         },
         '2': {
             '-e--[p]':{
-                '-e--[span]': 'demo 2'
+                '-e--[span.xxx.yyy]': 'demo 2'
             }
         }
     };
