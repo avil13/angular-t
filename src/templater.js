@@ -21,7 +21,8 @@ angular
                         res.push(k + '="' + v + '"');
                     }
                     return res.join(' ');
-                };
+                }; // attr
+
 
                 // создание условия
                 var to_if = function(str, obj) {
@@ -32,7 +33,8 @@ angular
                     res.push(parse(obj));
                     res.push('</div>');
                     return res.join(' ');
-                };
+                }; // to_if
+
 
                 // создание множественного условия
                 var to_switch = function(str, obj) {
@@ -47,15 +49,17 @@ angular
                     }
 
                     return res.join(' ');
-                };
+                }; // to_switch
+
 
                 // создание множественного условия
                 var to_case = function(condition, val, obj) {
                     return to_if(condition + '==' + val, obj);
-                };
+                }; // to_case
+
 
                 // создаем div можно передавать только классы
-                var to_e = function(str, obj) {
+                var to_e = function(str, obj, temp) {
                     var res = [];
                     var origin = str.split('.'); // тут массив для названий классов
                     var el = origin.shift() || 'div'; // название элемента
@@ -87,8 +91,15 @@ angular
                         }
                     }
                     res.push('</' + el.split(' ').shift() + '>');
-                    return res.join('');
-                };
+
+                    var r = res.join('');
+
+                    if(wrapper[temp]){
+                        return wrapper[temp].replace(/_@/g, r);
+                    }
+                    return r;
+                }; // to_e
+
 
                 // getSub object
                 var getSub = function(obj) {
@@ -98,7 +109,8 @@ angular
                         return obj['_sub_'];
                     }
                     return '';
-                };
+                }; // getSub
+
 
                 // проверка есть ли в объекте компонент, проверяется по первому символу черточке
                 var hasComp = function(obj) {
@@ -109,7 +121,7 @@ angular
                         }
                     }
                     return false;
-                };
+                }; // hasComp
 
 
 
@@ -135,24 +147,26 @@ angular
                         //
                         switch (k.replace(reg, '$1')) {
                             case 'if':
-                                html_tmpl.push(to_if(k.replace(reg, '$2'), val));
+                                html_tmpl.push(to_if(k.replace(reg, '$2'), val, k.replace(reg, '$4')));
                                 break;
                             case 'switch':
-                                html_tmpl.push(to_switch(k.replace(reg, '$2'), val));
+                                html_tmpl.push(to_switch(k.replace(reg, '$2'), val, k.replace(reg, '$4')));
                                 break;
                             case 'e':
-                                html_tmpl.push(to_e(k.replace(reg, '$2'), val));
+                                html_tmpl.push(to_e(k.replace(reg, '$2'), val, k.replace(reg, '$4')));
                                 break;
                         }
                     }
                     return html_tmpl.join('');
-                };
+                }; // parse
+
 
                 // Заготовленные шаблоны обертки
                 var wrapper = {};
                 if (iAttrs.tmpl) {
                     wrapper = $parse(iAttrs.tmpl)(scope);
                 }
+
 
                 // получаем объект для шаблона
                 scope.$watch(iAttrs.map, function(val) {

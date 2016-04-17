@@ -4,6 +4,12 @@ var app = angular.module('App', [
 
 app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 
+
+    $scope.templates = {
+        'formInput': '<div class="form-group"><label for="xxx">Text input</label>_@</div>'
+    };
+
+
     $scope.demo_list = {
         '1': {
             '-e--[h1]': 'Hello world!'
@@ -13,24 +19,24 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
                 '-e--[span]': 'demo 2'
             }
         },
-        '3':{
-            '-e--[h3]':'if component',
+        '3': {
+            '-e--[h3]': 'if component',
 
-            '-e--[input.form-control]':{
-                'type':'text',
+            '-e--[input.form-control]': {
+                'type': 'text',
                 'ng-model': 'val'
             },
 
             '-if--[val=="1"]': {
-                '-e--[]':'show value {{val}}'
+                '-e--[]': 'show value {{val}}'
             },
 
             '-if--[val!="1"]': {
-                '-e--[]':'hide value {{val}}'
+                '-e--[]': 'hide value {{val}}'
             }
         },
         '4': {
-            '-e--[h3]':'switch component',
+            '-e--[h3]': 'switch component',
 
             '-e--[select ng-model="selector".form-control]': {
                 '-e--[option value="1"]': 'show 1',
@@ -51,15 +57,21 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
             }
         },
         '5': {
-            '-e--[span]':{
+            '-e--[span]': {
                 'style': 'color:#933',
-                '_sub_':{
+                '_sub_': {
                     '_sub_': 'red text',
-                    '-e--[span]':{
+                    '-e--[span]': {
                         'style': 'color:#393',
                         '_sub_': 'green text'
                     }
                 }
+            }
+        },
+        '6': {
+            '-e--[input.form-control][formInput]':{
+                'id': 'xxx',
+                'value': 'My text'
             }
         }
     };
@@ -69,10 +81,16 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
     $scope.map_object = {};
 
     $scope.use = function(key) {
+        console.time("Execution time took");
+
         $scope.map_object = $scope.demo_list[key];
         $scope.active = key;
         $timeout(function() {
             $scope.html = document.getElementById('templater').innerHTML;
         });
+
+        console.timeEnd("Execution time took");
     };
+
+
 }]);
