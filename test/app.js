@@ -49,6 +49,18 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
                     '-e--[p]': 'selected third item'
                 }
             }
+        },
+        '5': {
+            '-e--[span]':{
+                'style': 'color:#933',
+                '_sub_':{
+                    '_sub_': 'red text',
+                    '-e--[span]':{
+                        'style': 'color:#393',
+                        '_sub_': 'green text'
+                    }
+                }
+            }
         }
     };
 

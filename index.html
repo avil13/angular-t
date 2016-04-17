@@ -16,6 +16,7 @@
 <body ng-controller="TestCtrl">
     <div class="container col-xs-12 col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
         <!--  -->
+        <h5>Demo:</h5>
         <div class="btn-group btn-group-justified">
             <div class="btn-group" ng-repeat="(k, v) in demo_list">
                 <button
@@ -23,7 +24,7 @@
                     class="btn btn-default"
                     ng-click="use(k)"
                     ng-class="{active:k==active}"
-                    >demo {{ k }}</button>
+                    >{{ k }}</button>
             </div>
         </div>
         <br>
