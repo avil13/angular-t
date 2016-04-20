@@ -6,7 +6,7 @@
   "directories": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -a 0.0.0.0 -p 9000 -o"
+    "start": "http-server -a 0.0.0.0 -p 8080 -o"
   },
   "author": "Aleksey Pivkin",
   "license": "ISC",

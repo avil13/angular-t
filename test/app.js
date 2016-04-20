@@ -1,14 +1,16 @@
+// Create app
 var app = angular.module('App', [
     'templater' // include Templater
 ]);
 
+// Config
+app.config(['$templatesProvider', function ($templatesProvider){
+    // add template wrapper
+    $templatesProvider.add({formInput: '<div class="form-group"><label for="_id">Text input</label>_@</div>'});
+}]);
+
+// Demo
 app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-
-
-    $scope.templates = {
-        'formInput': '<div class="form-group"><label for="xxx">Text input</label>_@</div>'
-    };
-
 
     $scope.demo_list = {
         '1': {
@@ -69,10 +71,14 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
             }
         },
         '6': {
-            '-e--[input.form-control][formInput]':{
-                'id': 'xxx',
+            '-e--[input.form-control][formInput]-1':{
+                'id': '_id',
                 'value': 'My text'
-            }
+            },
+            '-e--[input.form-control][formInput]-2':{
+                'id': '_id',
+                'value': 'My text'
+            },
         }
     };
 
