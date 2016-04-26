@@ -88,11 +88,23 @@ angular.module('templater', [])
                     } else {
                         re = /^<[^>\s]+()/g;
                     }
+                    cls = clearClass(cls);
                     return el.replace(re, ' class="' + cls.join(' ') + '"');
                 }
-
+                cls = clearClass(cls);
                 return ' class="' + cls.join(' ') + '"';
             }; // getClass
+
+            // Очищаем пустые и одинаковые названия для классов
+            var clearClass = function(arr) {
+                var x = {};
+                for(var i=arr.length;i--;){
+                    if(arr[i]){
+                        x[arr[i]] = '';
+                    }
+                }
+                return Object.keys(x);
+            }; // clearClass
 
             // создание условия
             var to_if = function(str, obj) {
