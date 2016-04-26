@@ -22,6 +22,32 @@ angular.module('templater', [])
         template: '',
         link: function(scope, iElement, iAttrs) {
 
+            // Заготовленные шаблоны обертки
+            var wrapper = $templates;
+
+            if (iAttrs.tmpl) {
+                angular.extend(wrapper, $parse(iAttrs.tmpl)(scope));
+            }
+
+            // оборачивание элемента
+            var wrap = function(el, temp) {
+                if (wrapper[temp]) {
+                    var _id = 'id-' + Date.now() + '-' + parseInt(Math.random() * 1000, 10);
+                    // el has class
+                    if (/_@\[(.*)\]/g.test(wrapper[temp])) {
+                        // если есть классы элемента в шаблоне _@[.btn.btn-default]
+                        var el_cls = wrapper[temp].replace(/.+_@\[([^\]]+)\].+/g, '$1');
+                        el = getClass(el_cls, el);
+                        el = wrapper[temp].replace(/(_@\[[^\]]+\])/g, el);
+                    } else {
+                        el = wrapper[temp].replace(/_@/g, el);
+                    }
+                    el = el.replace(/_id/g, _id);
+                }
+                return el;
+            }; // wrap
+
+
             // получение строки с атрибутами из объекта
             var attr = function(prop) {
                 var k, v,
@@ -37,6 +63,36 @@ angular.module('templater', [])
                 return res.join(' ');
             }; // attr
 
+            // функция для получения классов из css нотации
+            // @origin массив из классов
+            var getClass = function(origin, el) {
+                var cls = [],
+                    re; // регулярка для поиска и заменны места для классов
+
+                if (origin) {
+                    if (typeof origin === 'string') {
+                        origin = origin.split('.');
+                    }
+
+                    for (var i = 0; i < origin.length; i++) {
+                        if (origin[i]) {
+                            cls.push(origin[i]);
+                        }
+                    }
+                }
+
+                if (el) {
+                    if (/class="[^"]*"/g.test(el)) {
+                        cls.push(el.replace(/.*class="([^"]*)".*/g, '$1'));
+                        re = /(\sclass="[^"]*")/g;
+                    } else {
+                        re = /^<[^>\s]+()/g;
+                    }
+                    return el.replace(re, ' class="' + cls.join(' ') + '"');
+                }
+
+                return ' class="' + cls.join(' ') + '"';
+            }; // getClass
 
             // создание условия
             var to_if = function(str, obj) {
@@ -77,20 +133,8 @@ angular.module('templater', [])
                 var res = [];
                 var origin = str.split('.'); // тут массив для названий классов
                 var el = origin.shift() || 'div'; // название элемента
-                var cls = [];
-                // есть классы?
-                if (origin.length) {
-                    for (var i = 0; i < origin.length; i++) {
-                        if (origin[i]) {
-                            cls.push(origin[i]);
-                        }
-                    }
-                    // добавляем классы
-                    res.push('<' + el + ' class="' + cls.join(' ') + '"');
-                } else {
-                    // не добавляем классы
-                    res.push('<' + el);
-                }
+                // добавляем классы
+                res.push('<' + el + getClass(origin));
 
                 if (['string', 'number', 'boolean'].indexOf(typeof obj) > -1) {
                     res.push('>' + obj);
@@ -108,12 +152,7 @@ angular.module('templater', [])
 
                 var r = res.join('');
 
-                if (wrapper[temp]) {
-                    var _id = 'id-' + Date.now() + '-' + parseInt(Math.random() * 1000);
-                    r = wrapper[temp].replace(/_@/g, r);
-                    r = r.replace(/_id/g, _id);
-                }
-                return r;
+                return wrap(r, temp);
             }; // to_e
 
 
@@ -176,13 +215,6 @@ angular.module('templater', [])
                 return html_tmpl.join('');
             }; // parse
 
-
-            // Заготовленные шаблоны обертки
-            var wrapper = $templates;
-
-            if (iAttrs.tmpl) {
-                angular.extend(wrapper, $parse(iAttrs.tmpl)(scope));
-            }
 
 
             // получаем объект для шаблона
