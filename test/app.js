@@ -80,6 +80,11 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
                 'id': '_id',
                 'value': 'My text'
             },
+        },
+        '7': {
+            '-e--[hr]':{
+                '_sub_': 'Hello world'
+            }
         }
     };
 

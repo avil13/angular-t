@@ -21,6 +21,8 @@ angular.module('templater', [])
         scope: '^',
         template: '',
         link: function(scope, iElement, iAttrs) {
+            // не парные элементы
+            var empty_elements = ['area', 'base', 'basefont', 'br', 'col', 'frame', 'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param', 'embed'];
 
             // Заготовленные шаблоны обертки
             var wrapper = $templates;
@@ -160,7 +162,11 @@ angular.module('templater', [])
                         res.push(attr(obj) + '>' + getSub(obj));
                     }
                 }
-                res.push('</' + el.split(' ').shift() + '>');
+                // если элемент из тех что не стоит закрывать
+                var close_el = el.split(' ').shift();
+                if(empty_elements.indexOf(close_el) === -1){
+                    res.push('</' + close_el + '>');
+                }
 
                 var r = res.join('');
 
