@@ -1,16 +1,35 @@
 {
-  "name": "angular-t",
+  "name": "angular-templater",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {},
-  "scripts": {
+  "description": "make html easy",
+  "main": "src/templater.js",
+  "directories": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "lite-server"
+    "start": "lite-server",
+    "postinstall": "bower install"
   },
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "lite-server": "^2.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avil13/angular-templater.git"
+  },
+  "keywords": [
+    "angular",
+    "template",
+    "element",
+    "html"
+  ],
   "author": "Aleksey Pivkin",
   "license": "ISC",
-  "devDependencies": {
-    "lite-server": "^2.2.0"
-  }
+  "bugs": {
+    "url": "https://github.com/avil13/angular-templater/issues"
+  },
+  "homepage": "https://github.com/avil13/angular-templater#readme"
 }

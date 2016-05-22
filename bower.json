@@ -1,5 +1,5 @@
 {
-  "name": "angular-t",
+  "name": "angular-templater",
   "description": "easy make template for angular",
   "main": "src/templater.js",
   "authors": [
