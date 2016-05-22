@@ -1,0 +1,29 @@
+{
+  "name": "angular-t",
+  "description": "easy make template for angular",
+  "main": "src/templater.js",
+  "authors": [
+    "Aleksey Pivkin"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "template",
+    "angular",
+    "json",
+    "html",
+    "elements"
+  ],
+  "homepage": "https://github.com/avil13/angular-templater",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "angularjs#^1.5.5"
+  }
+}
