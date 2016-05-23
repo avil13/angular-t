@@ -7,7 +7,7 @@ var app = angular.module('App', [
 app.config(['$templatesProvider', function ($templatesProvider){
     // add template wrapper
     $templatesProvider.add({
-        formInput: '<div class="form-group"><label for="_id">Text input</label>_@[.form-control]</div>'
+        formInput: '<div class="form-group"><label for="_id">_$</label>_@[.form-control]</div>'
     });
 }]);
 // Demo
@@ -74,7 +74,8 @@ app.controller('TestCtrl', ['$scope', '$timeout', function($scope, $timeout) {
         '6': {
             '-e--[input.form-control][formInput]-1':{
                 'id': '_id',
-                'value': 'My text'
+                'value': 'My text',
+                '_lbl_': 'Cool input text'
             },
             '-e--[input][formInput]-2':{
                 'id': '_id',

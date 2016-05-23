@@ -1,5 +1,9 @@
 angular.module('templater', [])
 
+.config(['$compileProvider', function($compileProvider) {
+    $compileProvider.debugInfoEnabled(false);
+}])
+
 .provider('$templates', function() {
     var _templates = {};
 
@@ -32,7 +36,7 @@ angular.module('templater', [])
             }
 
             // оборачивание элемента
-            var wrap = function(el, temp) {
+            var wrap = function(el, temp, lbl) {
                 if (wrapper[temp]) {
                     var _id = 'id-' + Date.now() + '-' + parseInt(Math.random() * 1000, 10);
                     // el has class
@@ -45,6 +49,9 @@ angular.module('templater', [])
                         el = wrapper[temp].replace(/_@/g, el);
                     }
                     el = el.replace(/_id/g, _id);
+
+                    // Текст к примеру в лэйбле
+                    el = el.replace(/_\$/g, (lbl||''));
                 }
                 return el;
             }; // wrap
@@ -56,7 +63,7 @@ angular.module('templater', [])
                     res = [' '];
 
                 for (k in prop) {
-                    if (k === '_sub_') continue; // не парсим суб компоненты
+                    if (k === '_sub_' || k === '_lbl_') continue; // не парсим суб компоненты и описание
                     if (prop[k] === undefined) continue; // только элементы этого объекта
 
                     v = prop[k];
@@ -100,8 +107,8 @@ angular.module('templater', [])
             // Очищаем пустые и одинаковые названия для классов
             var clearClass = function(arr) {
                 var x = {};
-                for(var i=arr.length;i--;){
-                    if(arr[i]){
+                for (var i = arr.length; i--;) {
+                    if (arr[i]) {
                         x[arr[i]] = '';
                     }
                 }
@@ -155,8 +162,7 @@ angular.module('templater', [])
                 } else {
                     if (hasComp(obj)) {
                         // обрабатываем объект как компонент
-                        res.push('>');
-                        res.push(getSub(obj) + parse(obj));
+                        res.push('>' + getSub(obj) + parse(obj));
                     } else {
                         // обрабатываем как атрибуты элемента
                         res.push(attr(obj) + '>' + getSub(obj));
@@ -164,22 +170,22 @@ angular.module('templater', [])
                 }
                 // если элемент из тех что не стоит закрывать
                 var close_el = el.split(' ').shift();
-                if(empty_elements.indexOf(close_el) === -1){
+                if (empty_elements.indexOf(close_el) === -1) {
                     res.push('</' + close_el + '>');
                 }
 
                 var r = res.join('');
 
-                return wrap(r, temp);
+                return wrap(r, temp, obj._lbl_);
             }; // to_e
 
 
             // getSub object
             var getSub = function(obj) {
-                if (typeof obj['_sub_'] === 'object') {
-                    return getSub(obj['_sub_']) + parse(obj['_sub_']);
-                } else if (['string', 'number', 'boolean'].indexOf(typeof obj['_sub_']) > -1) {
-                    return obj['_sub_'];
+                if (typeof obj._sub_ === 'object') {
+                    return getSub(obj._sub_) + parse(obj._sub_);
+                } else if (['string', 'number', 'boolean'].indexOf(typeof obj._sub_) > -1) {
+                    return obj._sub_;
                 }
                 return '';
             }; // getSub
